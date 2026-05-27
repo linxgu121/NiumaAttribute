@@ -33,6 +33,9 @@ namespace NiumaAttribute.Controller
         [Tooltip("初始化时是否把 IAttributeService、IAttributeQuery、IAttributeCommand 注册到 GameContext。使用统一 GameContext 的项目建议开启。")]
         [SerializeField] private bool registerServiceToContext = true;
 
+        [Tooltip("是否由本控制器的 Update 自动驱动 Tick。若项目已有统一模块启动器调用 IGameModule.Tick，请关闭，避免 Modifier 过期和资源恢复每帧执行两次。")]
+        [SerializeField] private bool driveTickInUpdate = true;
+
         [Header("调试：Actor")]
         [Tooltip("调试用 ActorId。玩家建议使用 player，本地多玩家或 NPC 请使用稳定唯一 ID。")]
         [SerializeField] private string debugActorId = "player";
@@ -278,6 +281,11 @@ namespace NiumaAttribute.Controller
 
         private void Update()
         {
+            if (!driveTickInUpdate)
+            {
+                return;
+            }
+
             Tick(Time.deltaTime);
         }
 
