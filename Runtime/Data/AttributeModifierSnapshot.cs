@@ -17,6 +17,7 @@ namespace NiumaAttribute.Data
         public AttributeModifierLayer Layer;
         public float Value;
         public int Priority;
+        public float DurationSeconds;
         public float RemainingSeconds;
         public string SourceModule;
 
@@ -32,8 +33,8 @@ namespace NiumaAttribute.Data
                 Value = Value,
                 Priority = Priority,
                 IsPersistent = true,
+                DurationSeconds = DurationSeconds,
                 RemainingSeconds = RemainingSeconds,
-                DurationSeconds = RemainingSeconds,
                 SourceModule = SourceModule
             };
         }
@@ -54,6 +55,7 @@ namespace NiumaAttribute.Data
                 Layer = modifier.Layer,
                 Value = modifier.Value,
                 Priority = modifier.Priority,
+                DurationSeconds = modifier.DurationSeconds,
                 RemainingSeconds = modifier.RemainingSeconds,
                 SourceModule = modifier.SourceModule
             };

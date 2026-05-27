@@ -1,7 +1,9 @@
 {
     "name": "NiumaAttribute.Runtime",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "NiumaCore.Runtime"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -21,6 +21,7 @@ namespace NiumaAttribute.Data
             return new ResourceValueSnapshot
             {
                 ResourceId = ResourceId,
+                MaxAttributeId = MaxAttributeId,
                 CurrentValue = CurrentValue
             };
         }
@@ -35,6 +36,7 @@ namespace NiumaAttribute.Data
             return new ResourceRuntimeState
             {
                 ResourceId = snapshot.ResourceId,
+                MaxAttributeId = snapshot.MaxAttributeId,
                 CurrentValue = snapshot.CurrentValue
             };
         }
