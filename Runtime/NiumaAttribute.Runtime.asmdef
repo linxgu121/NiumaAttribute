@@ -2,7 +2,8 @@
     "name": "NiumaAttribute.Runtime",
     "rootNamespace": "",
     "references": [
-        "NiumaCore.Runtime"
+        "NiumaCore.Runtime",
+        "NiumaSave.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
