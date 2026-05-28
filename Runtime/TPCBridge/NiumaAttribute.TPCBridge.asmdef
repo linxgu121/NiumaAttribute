@@ -1,0 +1,17 @@
+{
+    "name": "NiumaAttribute.TPCBridge",
+    "rootNamespace": "",
+    "references": [
+        "NiumaAttribute.Runtime",
+        "NiumaTPC.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
