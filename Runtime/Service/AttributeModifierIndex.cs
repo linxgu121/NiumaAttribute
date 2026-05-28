@@ -197,9 +197,9 @@ namespace NiumaAttribute.Service
                 if (modifier.DurationSeconds > 0f)
                 {
                     modifier.RemainingSeconds -= deltaTime;
-                    changed = true;
                     if (modifier.RemainingSeconds <= 0f)
                     {
+                        changed = true;
                         AddUnique(expiredTargetAttributeIds, modifier.TargetAttributeId);
                         continue;
                     }

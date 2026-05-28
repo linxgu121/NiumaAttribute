@@ -614,18 +614,14 @@ namespace NiumaAttribute.Service
                 return false;
             }
 
-            if (!_calculator.Recalculate(owner, out var error))
+            var calculated = _calculator.Recalculate(owner, out var error);
+            if (!calculated && logErrors)
             {
-                if (logErrors)
-                {
-                    Debug.LogWarning($"[NiumaAttribute] Actor={owner.ActorId} 属性重算失败：{error}");
-                }
-
-                return false;
+                Debug.LogWarning($"[NiumaAttribute] Actor={owner.ActorId} 属性重算发现配置问题，已使用基础值兜底并继续刷新资源：{error}");
             }
 
             _resourceUpdater.RefreshMaxValues(owner, _definitionRegistry, initializeResourceIds, preserveResourcePercent);
-            return true;
+            return calculated;
         }
 
         private AttributeOwnerSnapshot BuildOwnerSnapshot(AttributeOwnerRuntimeState owner)

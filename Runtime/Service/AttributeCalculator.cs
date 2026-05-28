@@ -35,6 +35,8 @@ namespace NiumaAttribute.Service
 
             var resolved = new Dictionary<string, float>(StringComparer.Ordinal);
             var visiting = new HashSet<string>(StringComparer.Ordinal);
+            var succeeded = true;
+            string firstError = null;
             var attributes = owner.Attributes ?? Array.Empty<AttributeRuntimeState>();
             for (var i = 0; i < attributes.Length; i++)
             {
@@ -44,15 +46,23 @@ namespace NiumaAttribute.Service
                     continue;
                 }
 
-                if (!TryComputeValue(owner, state.AttributeId, resolved, visiting, out var value, out error))
+                if (!TryComputeValue(owner, state.AttributeId, resolved, visiting, out var value, out var computeError))
                 {
-                    return false;
+                    succeeded = false;
+                    firstError ??= computeError;
+                    value = CalculateFallbackValue(owner, state, state.AttributeId);
+                }
+                else if (!string.IsNullOrWhiteSpace(computeError))
+                {
+                    succeeded = false;
+                    firstError ??= computeError;
                 }
 
                 state.FinalValue = value;
             }
 
-            return true;
+            error = firstError;
+            return succeeded;
         }
 
         /// <summary>
@@ -160,7 +170,9 @@ namespace NiumaAttribute.Service
             if (visiting.Contains(attributeId))
             {
                 error = $"属性派生公式存在循环依赖：{attributeId}";
-                return false;
+                value = CalculateFallbackValue(owner, AttributeOwnerStateStore.FindAttribute(owner, attributeId), attributeId);
+                resolved[attributeId] = value;
+                return true;
             }
 
             var state = AttributeOwnerStateStore.FindAttribute(owner, attributeId);
@@ -183,11 +195,6 @@ namespace NiumaAttribute.Service
             if (_registry.TryGetAttribute(attributeId, out var definition))
             {
                 rawValue = CalculateFormulaValue(owner, definition, state, resolved, visiting, out error);
-                if (error != null)
-                {
-                    visiting.Remove(attributeId);
-                    return false;
-                }
             }
 
             value = ApplyModifiers(rawValue, owner.Modifiers, attributeId);
@@ -222,13 +229,27 @@ namespace NiumaAttribute.Service
 
                 if (!TryComputeValue(owner, term.SourceAttributeId, resolved, visiting, out var sourceValue, out error))
                 {
-                    return value;
+                    return state.BaseValue;
+                }
+
+                if (!string.IsNullOrWhiteSpace(error))
+                {
+                    return state.BaseValue;
                 }
 
                 value += sourceValue * term.Coefficient;
             }
 
             return value;
+        }
+
+        private float CalculateFallbackValue(AttributeOwnerRuntimeState owner, AttributeRuntimeState state, string attributeId)
+        {
+            var rawValue = state != null ? state.BaseValue : 0f;
+            var value = ApplyModifiers(rawValue, owner != null ? owner.Modifiers : null, attributeId);
+            return _registry.TryGetAttribute(attributeId, out var definition)
+                ? ClampValue(value, definition)
+                : value;
         }
 
         private float ApplyModifiers(float baseValue, AttributeModifier[] modifiers, string attributeId)

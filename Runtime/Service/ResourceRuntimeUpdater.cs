@@ -106,7 +106,6 @@ namespace NiumaAttribute.Service
                     if (Math.Abs(nextDelay - resource.RecoveryDelayTimer) > 0.0001f)
                     {
                         resource.RecoveryDelayTimer = nextDelay;
-                        changed = true;
                     }
 
                     if (resource.RecoveryDelayTimer > 0f)
