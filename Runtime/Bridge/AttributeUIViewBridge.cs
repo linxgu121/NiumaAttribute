@@ -15,7 +15,7 @@ namespace NiumaAttribute.Bridge
         [Tooltip("属性模块根控制器。请拖入场景中的 NiumaAttributeController；为空时可按配置自动查找。")]
         [SerializeField] private NiumaAttributeController attributeController;
 
-        [Tooltip("实现 IAttributeUIReceiver 的 UI 组件。桥接层会把整理后的属性表现数据交给它显示。")]
+        [Tooltip("属性面板 UI 脚本。拖团队制作的 Attribute 面板脚本；该脚本负责显示属性列表和资源概览。当前模块未内置正式面板，未制作 UI 时可留空。")]
         [SerializeField] private MonoBehaviour attributeUIReceiverProvider;
 
         [Header("自动查找")]
@@ -288,7 +288,7 @@ namespace NiumaAttribute.Bridge
             _receiver = attributeUIReceiverProvider as IAttributeUIReceiver;
             if (logMissing && attributeUIReceiverProvider != null && _receiver == null)
             {
-                Debug.LogWarning("[NiumaAttributeUIBridge] attributeUIReceiverProvider 未实现 IAttributeUIReceiver。", this);
+                Debug.LogWarning("[NiumaAttributeUIBridge] Attribute UI Receiver 绑定的不是属性面板脚本，请拖团队制作的 Attribute 面板脚本。", this);
             }
         }
     }

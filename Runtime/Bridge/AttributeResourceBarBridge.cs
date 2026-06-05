@@ -14,7 +14,7 @@ namespace NiumaAttribute.Bridge
         [Tooltip("属性模块根控制器。请拖入场景中的 NiumaAttributeController；为空时可按配置自动查找。")]
         [SerializeField] private NiumaAttributeController attributeController;
 
-        [Tooltip("实现 IAttributeResourceBarReceiver 的 UI 组件。桥接层会把单个资源表现数据交给它显示。")]
+        [Tooltip("资源条 UI 脚本。拖团队制作的 HP/MP/Stamina 资源条脚本；该脚本负责显示单个资源条。当前模块未内置正式资源条，未制作 UI 时可留空。")]
         [SerializeField] private MonoBehaviour resourceBarReceiverProvider;
 
         [Header("自动查找")]
@@ -285,7 +285,7 @@ namespace NiumaAttribute.Bridge
             _receiver = resourceBarReceiverProvider as IAttributeResourceBarReceiver;
             if (logMissing && resourceBarReceiverProvider != null && _receiver == null)
             {
-                Debug.LogWarning("[NiumaAttributeResourceBarBridge] resourceBarReceiverProvider 未实现 IAttributeResourceBarReceiver。", this);
+                Debug.LogWarning("[NiumaAttributeResourceBarBridge] ResourceBar Receiver 绑定的不是资源条脚本，请拖团队制作的 HP/MP/Stamina 资源条脚本。", this);
             }
         }
 
