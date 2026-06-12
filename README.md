@@ -86,3 +86,23 @@ Attribute 不做伤害公式、不做 Buff 生命周期、不做元素反应。C
 | `Actor Id` | 填玩家稳定 ID，建议 `player` | 不可以 | 属性模块无法区分角色 |
 
 
+
+### UI Toolkit 接入
+
+建议挂载位置：
+
+- AttributeUIViewBridge：挂在属性面板桥接物体，例如 UIRoot/UIBridges/AttributeUIViewBridge。
+- AttributeToolkitReceiver：挂在 UIRoot/UIBridges/AttributeToolkitReceiver，并拖到 AttributeUIViewBridge.Attribute UI Receiver Provider。
+- AttributeToolkitBindingProvider：挂在 UIRoot/UIToolkitRoot/BindingProviders/AttributeBindingProvider，并拖到 UIToolkitViewFactory.Binding Provider Behaviours。
+- AttributeResourceBarBridge：每一条 HP/MP/Stamina 资源条各挂一个。
+- AttributeResourceBarToolkitReceiver：挂在对应资源条桥接物体上，并拖到 AttributeResourceBarBridge.Resource Bar Receiver Provider。
+- AttributeResourceBarToolkitBindingProvider：挂在 UIRoot/UIToolkitRoot/BindingProviders/AttributeResourceBarBindingProvider。
+
+默认 ViewId / BindingProviderId：
+
+| 面板 | Receiver | Provider | ViewId / BindingProviderId |
+| --- | --- | --- | --- |
+| 属性面板 | AttributeToolkitReceiver | AttributeToolkitBindingProvider | AttributePanel |
+| 资源条 | AttributeResourceBarToolkitReceiver | AttributeResourceBarToolkitBindingProvider | AttributeResourceBar |
+
+属性面板 UXML 建议包含：TitleText、StatusText、ListRoot、DetailText、ResultText、EmptyRoot。资源条 UXML 建议包含：TitleText、ValueText、FillElement、EmptyRoot。

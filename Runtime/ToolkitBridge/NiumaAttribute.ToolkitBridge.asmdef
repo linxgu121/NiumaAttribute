@@ -1,0 +1,25 @@
+﻿{
+    "name":  "NiumaAttribute.ToolkitBridge",
+    "references":  [
+                       "NiumaAttribute.Runtime",
+                       "NiumaUI.Runtime"
+                   ],
+    "includePlatforms":  [
+
+                         ],
+    "excludePlatforms":  [
+
+                         ],
+    "allowUnsafeCode":  false,
+    "overrideReferences":  false,
+    "precompiledReferences":  [
+
+                              ],
+    "autoReferenced":  true,
+    "defineConstraints":  [
+
+                          ],
+    "versionDefines":  [
+
+                       ]
+}
