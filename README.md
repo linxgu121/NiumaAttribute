@@ -106,3 +106,13 @@ Attribute 不做伤害公式、不做 Buff 生命周期、不做元素反应。C
 | 资源条 | AttributeResourceBarToolkitReceiver | AttributeResourceBarToolkitBindingProvider | AttributeResourceBar |
 
 属性面板 UXML 建议包含：TitleText、StatusText、ListRoot、DetailText、ResultText、EmptyRoot。资源条 UXML 建议包含：TitleText、ValueText、FillElement、EmptyRoot。
+
+## 配置资产粒度基准
+
+NiumaAttribute 的配置资产是全项目数值事实库，按“一个数值概念一个资产”拆分。
+
+- `AttributeDefinition`：一个属性一个资产，例如 `STR`、`DEX`、`AttackPower`、`MaxHealth`。
+- `ResourceDefinition`：一种资源一个资产，例如 `hp`、`mp`、`stamina`，自定义资源也按同样规则新增。
+- `EquipmentAttributeModifierProfile`：一套装备属性桥接规则一个资产，通常按装备来源或装备体系拆，不要塞成全局杂项表。
+
+不要把某个角色当前 HP、当前属性值、临时 Buff 加成写进这些资产；这些属于运行时状态和存档。
